@@ -2,14 +2,14 @@ import nltk #pip install nltk
 from nltk import pos_tag, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
+sw = set(stopwords.words('english'))
 
 #remove stopwords
 #PRECONDITION: Accepts a tokenized array of strings
 #POSTCONDITION: Returns the input with stopwords removed
 def remove_stopwords(tokenized_sentence):
-	sw = set(stopwords.words('english'))
 	for word in tokenized_sentence:
-		if word not in sw:
+		if word in sw:
 			tokenized_sentence.remove(word)
 	return tokenized_sentence
 
@@ -27,18 +27,3 @@ def lemmatize(tokenized_sentence):
 		wntag = wntag[0] if wntag[0] in ['a','r','n','v'] else None
 		temp.append(lmtzr.lemmatize(word,wntag) if wntag else word)
 	return temp
- 
-
-'''
-#count words and put into dict
-d = {}
-for row in format4:
-	for word in row:
-		if word in d:
-			d[word] = d[word] + 1;
-		else:
-			d[word] = 1;
-
-for key, value in sorted(d.items(), key=lambda item: item[1]):
-    print("%s: %s" % (key, value))
- '''
