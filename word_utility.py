@@ -8,10 +8,11 @@ sw = set(stopwords.words('english'))
 #PRECONDITION: Accepts a tokenized array of strings
 #POSTCONDITION: Returns the input with stopwords removed
 def remove_stopwords(tokenized_sentence):
+	temp = []
 	for word in tokenized_sentence:
 		if word in sw:
-			tokenized_sentence.remove(word)
-	return tokenized_sentence
+			temp.append(word)
+	return temp
 
 #lemmatize words
 #PRECONDITION: Accepts a tokenized array of strings
