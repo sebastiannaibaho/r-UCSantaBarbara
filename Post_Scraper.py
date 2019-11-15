@@ -10,6 +10,9 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
 
 #
 # Using the reddit api gets us comments, but is really slow. I only have it getting the top level comments (which
@@ -28,7 +31,7 @@ CREATE_CSV = True  # have true for writing csv files (using pushshift)
 
 # If you put -1 for num_posts, then the program will run until the FIRST_POST_UTC time which is defaulted to beginning
 # of the subreddit. Not too bad with USE_REDDIT_API set to False
-NUM_POSTS = 1000
+NUM_POSTS = 10000
 
 OUTPUT_FILE = "output.csv"  # change to .csv
 OUTPUT_LINE_WIDTH = 120
@@ -146,7 +149,15 @@ def print_posts_with_pushshift(ps, fn):
 
 
 def format_text_csv(content):  # formatting for .csv file
-    content = content.replace('\n', '')  # delete existing new lines so everything is on one line
+    content = content.replace('\n', ' ')  # delete existing new lines so everything is on one line
+    content = content.replace('\r', ' ')
+    content = content.replace('   ', ' ')
+    content = content.replace('"', '')
+    content = content.lower()
+    punctuation_signs = list('?:!.,;')
+    for punct_sign in punctuation_signs:
+        content = content.replace(punct_sign, '')
+    content = content.replace("'s", "")
     return content
 
 
@@ -184,7 +195,7 @@ else:
     num_deleted = print_posts_with_pushshift(posts, f.write if PRINT_TO_FILE else print)
 
 if VISUALS:
-    df = pd.read_csv(OUTPUT_FILE, sep=';-', names=['Title', 'Content', 'Category'])
+    df = pd.read_csv("output.csv", sep=';-', names=['Title', 'Content', 'Category'], engine='python')
     #print(df['Title'].size)
     sns.countplot(x='Category', data=df)
     plt.show()
