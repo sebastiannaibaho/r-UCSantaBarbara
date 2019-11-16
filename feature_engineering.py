@@ -1,16 +1,11 @@
 import pickle
 import pandas as pd
-import re
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import chi2
-import numpy as np
 from nltk.stem import WordNetLemmatizer
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 df = pd.read_csv("output_df.csv", sep=';-', names=['Title', 'Content', 'Category'], engine='python')
 df['Content'] = df['Content'].fillna("")
