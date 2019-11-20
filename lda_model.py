@@ -22,11 +22,11 @@ bigram_mod = gensim.models.phrases.Phraser(bigram)
 trigram_mod = gensim.models.phrases.Phraser(trigram)
 
 print("Processing text")
-for row in format1:
-	row = word_utility.remove_stopwords(row)
-	row = bigram_mod[row]
-	row = trigram_mod[row]
-	row = word_utility.lemmatize(row)
+for i in range(len(format1)):
+	format1[i] = word_utility.remove_stopwords(format1[i])
+	format1[i] = bigram_mod[format1[i]]
+	format1[i] = trigram_mod[format1[i]]
+	format1[i] = word_utility.lemmatize(format1[i])
 
 print("Building LDA model")
 id2word = corpora.Dictionary(format1)

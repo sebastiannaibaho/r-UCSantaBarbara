@@ -3,13 +3,14 @@ from nltk import pos_tag, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 sw = set(stopwords.words('english'))
+
 #remove stopwords
 #PRECONDITION: Accepts a tokenized array of strings
 #POSTCONDITION: Returns the input with stopwords removed
 def remove_stopwords(tokenized_sentence):
 	temp = []
 	for word in tokenized_sentence:
-		if word in sw:
+		if word not in sw:
 			temp.append(word)
 	return temp
 
