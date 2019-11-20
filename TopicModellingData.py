@@ -32,7 +32,7 @@ stop_words = stopwords.words('english')
 
 # If you put -1 for num_posts, then the program will run until the FIRST_POST_UTC time which is defaulted to beginning
 # of the subreddit. Not too bad with USE_REDDIT_API set to False
-NUM_POSTS = 15000
+NUM_POSTS = 30000
 
 OUTPUT_FILE = "output.csv"
 
@@ -87,8 +87,8 @@ def print_posts_with_pushshift(input, fn):
     count = 0
     ps = []
     for p in input:
-        if 'selftext' in p:
-            ps.append(format_text(p['selftext']))
+        if 'selftext' in p and 'title' in p:
+            ps.append(format_text(p['title']) + ',' + format_text(p['selftext']))
         else:
             count += 1
 

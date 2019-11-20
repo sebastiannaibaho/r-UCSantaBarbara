@@ -3,7 +3,6 @@ from nltk import pos_tag, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 sw = set(stopwords.words('english'))
-
 #remove stopwords
 #PRECONDITION: Accepts a tokenized array of strings
 #POSTCONDITION: Returns the input with stopwords removed
