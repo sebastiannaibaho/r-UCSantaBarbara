@@ -23,6 +23,9 @@ from gensim.models import CoherenceModel
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
 
+# for saving dataframe
+import pickle
+
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -35,6 +38,8 @@ stop_words = stopwords.words('english')
 NUM_POSTS = 30000
 
 OUTPUT_FILE = "output.csv"
+
+FORMATTING = True  # for Edward
 
 # The amount of posts received for each request to pushshift, max is 1000
 POSTS_PER_REQUEST = 1000
@@ -59,7 +64,8 @@ def sent_to_words(sentences):
 def format_text(content):
     try:
         remove = ['\'', "\\(.*\\)\\[.*\\]", "\\[.*\\]\\(.*\\)", "https?://[a-zA-Z0-9\\./\\?\\-]+"]
-
+        if FORMATTING:
+            remove.append(",")
         for r in remove:
             content = re.sub(r, '', content)
         content = re.sub('\s+', ' ', content)
@@ -86,16 +92,33 @@ def remove_stopwords(texts):
 def print_posts_with_pushshift(input, fn):
     count = 0
     ps = []
+    ps2 = [[]]
     for p in input:
         if 'selftext' in p and 'title' in p:
-            ps.append(format_text(p['title']) + ',' + format_text(p['selftext']))
+            if FORMATTING:
+                if 'link_flair_text' in p:
+                    ps2.append([format_text(p['title'])] + [format_text(p['selftext'])] + [p['link_flair_text']])
+                else:
+                    ps2.append([format_text(p['title'])] + [format_text(p['selftext'])] + [])
+            else:
+                ps.append(format_text(p['title']) + ',' + format_text(p['selftext']))
         else:
             count += 1
+
+    if FORMATTING:
+        df = pd.DataFrame(ps2, columns=['Title', 'Content', 'Category'])
+        df = df.drop([0])
+        df.to_pickle("output_df.pkl")  # saving the dataframe
 
     ps = list(sent_to_words(ps))
     wr = csv.writer(fn)
 
-    for p in ps:
+    if FORMATTING:
+        plist = ps2
+    else:
+        plist = ps
+
+    for p in plist:
         try:
             wr.writerow(p)
         except UnicodeEncodeError:
@@ -130,7 +153,7 @@ while (FIRST_POST_UTC not in last_date) and (NUM_POSTS == -1 or count < NUM_POST
     last_date = '&before=' + str(posts[-1]['created_utc'])
 
 
-f = open(OUTPUT_FILE, 'w')
+f = open(OUTPUT_FILE, 'w+')
 num_deleted = print_posts_with_pushshift(posts, f)
 f.close()
 
