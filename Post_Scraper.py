@@ -39,12 +39,13 @@ def get_posts(num_posts, debug=False, last_date=current_time_utc, first_date=130
     count = 0
     posts = []
     # Because we can only make a max request of 1000 posts at a time, we have to loop through each batch of posts
-    while (first_date <= last_date) and (num_posts == -1 or count < num_posts):
-        request_size = SIZE_PER_REQUEST if num_posts < 0 or num_posts - count > SIZE_PER_REQUEST else num_posts - count
+    while (first_date < last_date) and (num_posts == -1 or count < num_posts):
+        request_size = SIZE_PER_REQUEST if (num_posts == -1 or num_posts - count > SIZE_PER_REQUEST) else num_posts - count
         next_posts = __get_posts_from_url(PS_URL + '&before=' + str(last_date + 1) + '%20&size=' + str(request_size))
 
         last_date = next_posts[-1]['created_utc']
         if last_date < first_date:
+            print("HERE")
             for i in range(0, len(next_posts)):
                 if next_posts[i]['created_utc'] < first_date:
                     break
@@ -55,6 +56,23 @@ def get_posts(num_posts, debug=False, last_date=current_time_utc, first_date=130
             print('\rRequested %d posts from pushshift.' % count, end='')
         posts += next_posts
 
-    if debug: print()
+    if debug:
+        print()
 
     return posts, last_date
+
+
+def get_comments(id, top_level_only=True, sort_by_score=True):
+    # if you set sort by score = False then it is utc descending by default
+    ps = 'https://api.pushshift.io/reddit/search/comment/?subreddit=UCSantaBarbara'
+    comments = __get_posts_from_url(ps + ('&sort=desc&sort_type=score' if sort_by_score else '') + '&link_id=t3_' + id)
+
+    if not top_level_only:
+        return comments
+
+    top_level_comments = []
+    for comment in comments:
+        if comment["link_id"] == comment["parent_id"]:
+            top_level_comments.append(comment)
+
+    return top_level_comments
