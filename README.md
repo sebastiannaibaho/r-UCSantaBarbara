@@ -1,2 +1,0 @@
-# r-UCSantaBarbara
-Yeet
