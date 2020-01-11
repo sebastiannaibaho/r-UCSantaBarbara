@@ -35,14 +35,19 @@ def __format_text(content):
 
 
 # removes bad posts and applies the format_text function
-def preprocess_posts(posts):
+def preprocess_posts(posts, comments=None):  # comments is an array of just the body of text
     num_deleted = 0
     result = []
 
-    for p in posts:
-        if __valid_post(p['selftext']) and __valid_post(__format_text(p['selftext'])):
+    for i in range(len(posts)):
+
+        post = posts[i]
+
+        comment = comments[i] if comments else ""
+
+        if __valid_post(post['selftext']) and __valid_post(__format_text(post['selftext'])):
             # I'm just adding the title in front of the text
-            result.append(__format_text(p['title'] + ' ' + p['selftext']))
+            result.append(__format_text(post['title'] + ' ' + post['selftext'] + ' ' + comment))
         else:
             num_deleted += 1
 
