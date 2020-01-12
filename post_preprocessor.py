@@ -45,12 +45,13 @@ def preprocess_posts(posts, comments=None):  # comments is an array of just the 
 
         comment = comments[i] if comments else ""
 
-        if __valid_post(post['selftext']) and __valid_post(__format_text(post['selftext'])):
-            # I'm just adding the title in front of the text
-            result.append(__format_text(post['title'] + ' ' + post['selftext'] + ' ' + comment))
-        else:
+        try:
+            if __valid_post(post['selftext']) and __valid_post(__format_text(post['selftext'])):
+                # I'm just adding the title in front of the text
+                result.append(__format_text(post['title'] + ' ' + post['selftext'] + ' ' + comment))
+            else:
+                num_deleted += 1
+        except KeyError:
             num_deleted += 1
 
     return result, num_deleted
-
-
