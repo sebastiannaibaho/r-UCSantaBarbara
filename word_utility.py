@@ -79,7 +79,7 @@ def remove_stopwords(tokenized_sentence):
                        "immediately", "importance", "important", "in", "inasmuch", "inc", "indeed", "index", "indicate",
                        "indicated", "indicates", "information", "inner", "insofar", "instead", "interest", "into",
                        "invention", "inward", "io", "ip", "iq", "ir", "is", "isn", "isn't", "it", "itd", "it'd",
-                       "it'll", "its", "it's", "itself", "iv", "i've", "ix", "iy", "iz", "j", "jj", "jr", "js", "jt",
+                       "it'll", "its", "it's", "itself",  "i've", "ix", "iy", "iz", "j", "jj", "jr", "js", "jt",
                        "ju", "just", "k", "ke", "keep", "keeps", "kept", "kg", "kj", "km", "know", "known", "knows",
                        "ko", "l", "l2", "la", "largely", "last", "lately", "later", "latter", "latterly", "lb", "lc",
                        "le", "least", "les", "less", "lest", "let", "lets", "let's", "lf", "like", "liked", "likely",
