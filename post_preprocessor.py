@@ -42,8 +42,7 @@ def preprocess_posts(posts, comments=None):  # comments is an array of just the 
     for i in range(len(posts)):
 
         post = posts[i]
-
-        comment = comments[i] if comments else ""
+        comment = ' '.join(c['body'] for c in comments[i]) if comments else ''
 
         try:
             if __valid_post(post['selftext']) and __valid_post(__format_text(post['selftext'])):

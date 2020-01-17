@@ -36,19 +36,19 @@ def tokenize(post):
 def remove_stopwords(tokenized_sentence):
     stop_words = stopwords.words('english')
     stop_words.extend(['im', 'ill', 'ive', 'really', 'doesnt', 'havent', 'also', 'dont', 'yea', 'yet', 'even', 'pretty',
-                       "0o", "0s", "3a", "3b", "3d", "6b", "6o", "a", "a1", "a2", "a3", "a4", "ab", "able", "about",
+                       "0o", "0s", "6o", "a", "a1", "a2", "a3", "a4", "ab", "able", "about",
                        "above", "abst", "ac", "accordance", "according", "accordingly", "across", "act", "actually",
                        "ad", "added", "adj", "ae", "af", "affected", "affecting", "affects", "after", "afterwards",
                        "ag", "again", "against", "ah", "ain", "ain't", "aj", "al", "all", "allow", "allows", "almost",
                        "alone", "along", "already", "also", "although", "always", "am", "among", "amongst", "amoungst",
                        "amount", "an", "and", "announce", "another", "any", "anybody", "anyhow", "anymore", "anyone",
-                       "anything", "anyway", "anyways", "anywhere", "ao", "ap", "apart", "apparently", "appear",
+                       "anything", "anyway", "anyways", "anywhere", "ao", "apart", "apparently", "appear",
                        "appreciate", "appropriate", "approximately", "ar", "are", "aren", "arent", "aren't", "arise",
                        "around", "as", "a's", "aside", "ask", "asking", "associated", "at", "au", "auth", "av",
                        "available", "aw", "away", "awfully", "ax", "ay", "az", "b", "b1", "b2", "b3", "ba", "back",
                        "bc", "bd", "be", "became", "because", "become", "becomes", "becoming", "been", "before",
                        "beforehand", "begin", "beginning", "beginnings", "begins", "behind", "being", "believe",
-                       "below", "beside", "besides", "best", "better", "between", "beyond", "bi", "bill", "biol", "bj",
+                       "below", "beside", "besides", "best", "better", "between", "beyond", "biol",
                        "bk", "bl", "bn", "both", "bottom", "bp", "br", "brief", "briefly", "bs", "bt", "bu", "but",
                        "bx", "by", "c", "c1", "c2", "c3", "ca", "call", "came", "can", "cannot", "cant", "can't",
                        "cause", "causes", "cc", "cd", "ce", "certain", "certainly", "cf", "cg", "ch", "changes", "ci",
@@ -131,7 +131,7 @@ def remove_stopwords(tokenized_sentence):
                        "v", "va", "value", "various", "vd", "ve", "ve", "very", "via", "viz", "vj", "vo", "vol", "vols",
                        "volumtype", "vq", "vs", "vt", "vu", "w", "wa", "want", "wants", "was", "wasn", "wasnt",
                        "wasn't", "way", "we", "wed", "we'd", "welcome", "well", "we'll", "well-b", "went", "were",
-                       "we're", "weren", "werent", "weren't", "we've", "what", "whatever", "what'll", "whats",
+                       "we're", "weren", "werent", "weren't", "we've", "what", "whatever", "what'll", "whats", "whatd",
                        "what's", "when", "whence", "whenever", "when's", "where", "whereafter", "whereas", "whereby",
                        "wherein", "wheres", "where's", "whereupon", "wherever", "whether", "which", "while", "whim",
                        "whither", "who", "whod", "whoever", "whole", "who'll", "whom", "whomever", "whos", "who's",
@@ -140,7 +140,7 @@ def remove_stopwords(tokenized_sentence):
                        "wouldn't", "www", "x", "x1", "x2", "x3", "xf", "xi", "xj", "xk", "xl", "xn", "xo", "xs", "xt",
                        "xv", "xx", "y", "y2", "yes", "yet", "yj", "yl", "you", "youd", "you'd", "you'll", "your",
                        "youre", "you're", "yours", "yourself", "yourselves", "you've", "yr", "ys", "yt", "z", "zero",
-                       "zi", "zz", 'wasnt', 'yeah'])  # idk you can get rid of this or add more
+                       "zi", "zz", 'wasnt', 'yeah', 'ya', 'jk', 'lol', 'tbh', 'lmao', 'lmfao', 'oof', 'ugh'])  # idk you can get rid of this or add more
     sw = set(stop_words)
 
     temp = []

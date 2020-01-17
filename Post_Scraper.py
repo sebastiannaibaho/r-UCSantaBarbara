@@ -6,9 +6,11 @@ import nltk.corpus  # for some reason you need this ??? the urllib.request won't
 
 # ################################################################################## #
 # Call: get_posts() to get posts from pushshift                                      #
-#                                                                                    #
 # posts, last_date = get_posts(num_posts, debug=False, last_date=CURRENT_BY_DEFAULT) #
 # or: posts = get_posts(num_posts, debug=False, last_date=CURRENT_BY_DEFAULT)[0]     #
+#                                                                                    #
+# Call: get_comments() to get the comments for the post                              #
+#                                                                                    #
 # ################################################################################## #
 
 PS_URL = 'https://api.pushshift.io/reddit/search/submission/?subreddit=UCSantaBarbara&sort=desc&sort_type=created_utc'
@@ -45,7 +47,6 @@ def get_posts(num_posts, debug=False, last_date=current_time_utc, first_date=130
 
         last_date = next_posts[-1]['created_utc']
         if last_date < first_date:
-            print("HERE")
             for i in range(0, len(next_posts)):
                 if next_posts[i]['created_utc'] < first_date:
                     break
@@ -62,17 +63,28 @@ def get_posts(num_posts, debug=False, last_date=current_time_utc, first_date=130
     return posts, last_date
 
 
-def get_comments(id, top_level_only=True, sort_by_score=True):
+def get_comments(ids, top_level_only=True, debug=False):
     # if you set sort by score = False then it is utc descending by default
-    ps = 'https://api.pushshift.io/reddit/search/comment/?subreddit=UCSantaBarbara'
-    comments = __get_posts_from_url(ps + ('&sort=desc&sort_type=score' if sort_by_score else '') + '&link_id=t3_' + id)
+    ps = 'https://api.pushshift.io/reddit/comment/search/?subreddit=UCSantaBarbara&link_id='
 
-    if not top_level_only:
-        return comments
+    comments = []
+    for i in range(0, len(ids), 500):  # i think i read somewhere on the api that its a 500 max?
+        j = i + 500 if len(ids) - i > 500 else len(ids)
 
-    top_level_comments = []
+        id_link = ','.join(ids[i:j])
+        comments.extend(__get_posts_from_url(ps + id_link + '&size=500'))
+
+        if debug:
+            print('\rRequested %d comments from pushshift.' % j, end='')
+
+    if debug:
+        print()
+
+    output = [[] for i in range(len(ids))]
+
     for comment in comments:
-        if comment["link_id"] == comment["parent_id"]:
-            top_level_comments.append(comment)
+        i = ids.index(comment['link_id'][3:])
+        if (not top_level_only) or (comment['link_id'] == comment['parent_id']):
+            output[i].append(comment)
 
-    return top_level_comments
+    return output
