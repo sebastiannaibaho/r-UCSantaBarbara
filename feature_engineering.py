@@ -55,6 +55,7 @@ for row in range(0, nrows):
 #print(df_sorted['Content_Parsed'])
 
 # Label coding
+"""
 category_codes = {  # alphabetical order
     'Academic Life': 0,
     'Course Questions': 1,
@@ -66,11 +67,18 @@ category_codes = {  # alphabetical order
     'IV/Goleta/SB': 7,
     'Meta': 8,
     'News': 9,
-    'Social Life': 10
+    'Social Life': 10,
 }
+"""
+category_codes = {}
+categories = list(set(df_sorted['Category']))
+print(categories)
+for i in range(0, len(categories)):
+    category_codes.update({categories[i] : i})
 
 # Category mapping
 df_sorted['Category_Code'] = df_sorted['Category']
+
 df_sorted = df_sorted.replace({'Category_Code': category_codes})
 #print(df_sorted.head())
 
