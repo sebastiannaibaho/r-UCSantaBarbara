@@ -1,0 +1,23 @@
+Post_Scraper.py
+	posts, last_date = get_posts(num_posts, debug=False, last_date=current_time_utc, first_date="start of subreddit")
+					> num_posts = -1 gets all posts from first_date to last_date
+	comments = get_comments(ids, top_level_only=True, debug=False)
+					> ids is an array of post ids to retrieve
+
+post_preprocessor.py
+	result, num_deleted = preprocess_posts(posts, comments=None)
+					> posts is the post object returned from Post_Scraper.get_posts
+					> comments is the comment objects returned from Post_Scraper.get_comments
+					> result is a list of maps containing the post Title, processed content, id and category
+
+word_utility.py
+	processed_posts = word_utility(posts)
+					> posts is an array of strings where each string represents the content of the post
+					> returns a 2d array of tokens
+
+get_data.py
+	data = get_data(num_posts, top_level_only=False, debug=False, filename='')
+					> returns a dataframe of the posts: Title, Processed Content, Id, and Category
+					> if you pass in string for filename, it prints to that file aswell
+
+					> look at this function as a guide to use the others.

@@ -40,14 +40,18 @@ def preprocess_posts(posts, comments=None):  # comments is an array of just the 
     result = []
 
     for i in range(len(posts)):
-
         post = posts[i]
-        comment = ' '.join(c['body'] for c in comments[i]) if comments else ''
+        comment = ' '.join(c['body'] for c in comments[i]) if (comments and len(comments[i])) else ''
 
         try:
             if __valid_post(post['selftext']) and __valid_post(__format_text(post['selftext'])):
                 # I'm just adding the title in front of the text
-                result.append(__format_text(post['title'] + ' ' + post['selftext'] + ' ' + comment))
+                result.append({
+                    'Title': post['title'],
+                    'Content': __format_text(post['title'] + ' ' + post['selftext'] + ' ' + comment),
+                    'Id': post['id'],
+                    'Category': post['link_flair_richtext'][0]['t'] if post['link_flair_richtext'] else 'None'
+                })
             else:
                 num_deleted += 1
         except KeyError:

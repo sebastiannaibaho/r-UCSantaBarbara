@@ -6,84 +6,31 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import chi2
 from nltk.stem import WordNetLemmatizer
+import get_data
 
-df = pd.read_pickle("output_df.pkl")
-df['Content'] = df['Content'].fillna("")
-
-
-# Stemming and Lemmatization
-wnl = WordNetLemmatizer()
-nrows = len(df)
-lemmatized_text_list = []
-
-for row in range(0, nrows):
-    # Create an empty list containing lemmatized words
-    lemmatized_list = []
-
-    # Save the text and its words into an object
-    text_words = df.iloc[row]['Content'].split(" ")
-    #print(df.iloc[row]['Content'].split(" "))
-
-    # Iterate through every word to lemmatize
-    for word in text_words:
-        lemmatized_list.append(wnl.lemmatize(word, pos="v"))
-
-    # Join the list
-    lemmatized_text = " ".join(lemmatized_list)
-
-    # Append to the list containing the texts
-    lemmatized_text_list.append(lemmatized_text)
-df['Content_Parsed'] = lemmatized_text_list
-df['Content_Parsed'] = df['Content_Parsed'].map(lambda x: x.lower())  # makes dataframe case insensitive
-
-# Stop words
-stop_words = list(stopwords.words('english'))
-add_stop_words = ['us', 'etc', 'thank', 'thanks', 'like', 'anyone', 'everyone']
-stop_words.extend(add_stop_words)
-for stop_word in stop_words:
-    regex_stopword = r"\b" + stop_word + r"\b"
-    df['Content_Parsed'] = df['Content_Parsed'].str.replace(regex_stopword, '')
-
+#df = get_data.get_data(10000, debug=True)
+df = pd.read_json('dataframe.json', dtype=str)
 
 # let's try subsetting the dataframe with only posts with flairs already
-df_sorted = pd.DataFrame({'Title': [], 'Content': [], 'Category': [], 'Content_Parsed': []})
+df_sorted = pd.DataFrame({'Title': [], 'Content': [], 'Id': [], 'Category': []})
 i = 0
-for row in range(0, nrows):
-    if df.iloc[row]['Category'] is not None:
+for row in range(0, len(df)):
+    if df.iloc[row]['Category'] != 'None':
         df_sorted.loc[i] = df.iloc[row]
         i += 1
-#print(df_sorted['Content_Parsed'])
+
+print(df_sorted.head())
 
 # Label coding
-"""
-category_codes = {  # alphabetical order
-    'Academic Life': 0,
-    'Course Questions': 1,
-    'Discussion': 2,
-    'Employment': 3,
-    'General Question': 4,
-    'Humor': 5,
-    'Incoming Students': 6,
-    'IV/Goleta/SB': 7,
-    'Meta': 8,
-    'News': 9,
-    'Social Life': 10,
-}
-"""
 category_codes = {}
 categories = list(set(df_sorted['Category']))
-print(categories)
-for i in range(0, len(categories)):
-    category_codes.update({categories[i] : i})
-
-# Category mapping
+[category_codes.update({categories[i]: i}) for i in range(0, len(categories))]
 df_sorted['Category_Code'] = df_sorted['Category']
-
 df_sorted = df_sorted.replace({'Category_Code': category_codes})
 #print(df_sorted.head())
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(df_sorted['Content_Parsed'],
+X_train, X_test, y_train, y_test = train_test_split(df_sorted['Content'],
                                                     df_sorted['Category_Code'],
                                                     test_size=0.01,  # low because of small sample size (for now)
                                                     random_state=8)
@@ -92,8 +39,8 @@ X_train, X_test, y_train, y_test = train_test_split(df_sorted['Content_Parsed'],
 # Text representation (TF-IDF Vectors)
 # Parameter election
 ngram_range = (1, 2)
-min_df = 10
-max_df = 1.
+min_df = 0.01
+max_df = 0.5
 max_features = 300
 tfidf = TfidfVectorizer(encoding='utf-8',
                         ngram_range=ngram_range,
