@@ -5,7 +5,7 @@
 * How to get a text classification model? (What Python library can do this?)
 * Potential already-existing library of words for topics?
 * MAYBE: scrape data from other UC subreddits to improve our models
-** Scrape flaired posts from other UC subreddits
+* Scrape flaired posts from other UC subreddits
 
 ### Text classification approach:
 * Use tf-idf to score each post, ranking the flairs from most relevant to least relevant
