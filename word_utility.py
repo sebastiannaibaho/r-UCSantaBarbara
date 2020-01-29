@@ -1,54 +1,22 @@
-import nltk
+import nltk #pip install nltk
+from nltk import pos_tag, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
-import gensim
-
-
-#
-# Because tokenize takes the entire posts but the rest take posts individually, you can just call word_utility
-# directly after calling preprocess_posts
-#
-def word_utility(posts):
-    output = []
-    tokens = tokenize(posts)
-
-    for t in tokens:
-        output.append(lemmatize(remove_stopwords(t)))
-
-    return output
-
-
-def __sent_to_words(sentences):
-    for sentence in sentences:
-        yield(gensim.utils.simple_preprocess(str(sentence), deacc=True))  # deacc=True removes punctuations
-
-
-# makes lowercase and extracts tokens from the document
-# PRECONDITION: The document array
-# POSTCONDITION: Returns a tokenized array of strings
-def tokenize(post):
-    return list(__sent_to_words(post))
-
-
-# remove stopwords
-# PRECONDITION: Accepts a tokenized array of strings
-# POSTCONDITION: Returns the input with stopwords removed
-def remove_stopwords(tokenized_sentence):
-    stop_words = stopwords.words('english')
-    stop_words.extend(['im', 'ill', 'ive', 'really', 'doesnt', 'havent', 'also', 'dont', 'yea', 'yet', 'even', 'pretty',
-                       "0o", "0s", "6o", "a", "a1", "a2", "a3", "a4", "ab", "able", "about",
+sw = stopwords.words('english')
+sw.extend(['im', 'ill', 'ive', 'really', 'doesnt', 'havent', 'also', 'dont', 'yea', 'yet', 'even', 'pretty',
+                       "0o", "0s", "3a", "3b", "3d", "6b", "6o", "a", "a1", "a2", "a3", "a4", "ab", "able", "about",
                        "above", "abst", "ac", "accordance", "according", "accordingly", "across", "act", "actually",
                        "ad", "added", "adj", "ae", "af", "affected", "affecting", "affects", "after", "afterwards",
                        "ag", "again", "against", "ah", "ain", "ain't", "aj", "al", "all", "allow", "allows", "almost",
                        "alone", "along", "already", "also", "although", "always", "am", "among", "amongst", "amoungst",
                        "amount", "an", "and", "announce", "another", "any", "anybody", "anyhow", "anymore", "anyone",
-                       "anything", "anyway", "anyways", "anywhere", "ao", "apart", "apparently", "appear",
+                       "anything", "anyway", "anyways", "anywhere", "ao", "ap", "apart", "apparently", "appear",
                        "appreciate", "appropriate", "approximately", "ar", "are", "aren", "arent", "aren't", "arise",
                        "around", "as", "a's", "aside", "ask", "asking", "associated", "at", "au", "auth", "av",
                        "available", "aw", "away", "awfully", "ax", "ay", "az", "b", "b1", "b2", "b3", "ba", "back",
                        "bc", "bd", "be", "became", "because", "become", "becomes", "becoming", "been", "before",
                        "beforehand", "begin", "beginning", "beginnings", "begins", "behind", "being", "believe",
-                       "below", "beside", "besides", "best", "better", "between", "beyond", "biol",
+                       "below", "beside", "besides", "best", "better", "between", "beyond", "bi", "bill", "biol", "bj",
                        "bk", "bl", "bn", "both", "bottom", "bp", "br", "brief", "briefly", "bs", "bt", "bu", "but",
                        "bx", "by", "c", "c1", "c2", "c3", "ca", "call", "came", "can", "cannot", "cant", "can't",
                        "cause", "causes", "cc", "cd", "ce", "certain", "certainly", "cf", "cg", "ch", "changes", "ci",
@@ -66,7 +34,7 @@ def remove_stopwords(tokenized_sentence):
                        "everywhere", "ex", "exactly", "example", "except", "ey", "f", "f2", "fa", "far", "fc", "few",
                        "ff", "fi", "fifteen", "fifth", "fify", "fill", "find", "fire", "first", "five", "fix", "fj",
                        "fl", "fn", "fo", "followed", "following", "follows", "for", "former", "formerly", "forth",
-                       "forty", "found", "four", "fr", "from", "front", "fs", "ft", "fu", "full", "further",
+                       "forty", "found", "four", "fr", "from", "front", "fs", "fu", "full", "further",
                        "furthermore", "fy", "g", "ga", "gave", "ge", "get", "gets", "getting", "gi", "give", "given",
                        "gives", "giving", "gj", "gl", "go", "goes", "going", "gone", "got", "gotten", "gr", "greetings",
                        "gs", "gy", "h", "h2", "h3", "had", "hadn", "hadn't", "happens", "hardly", "has", "hasn",
@@ -103,10 +71,10 @@ def remove_stopwords(tokenized_sentence):
                        "primarily", "probably", "promptly", "proud", "provides", "ps", "pt", "pu", "put", "py", "q",
                        "qj", "qu", "que", "quickly", "quite", "qv", "r", "r2", "ra", "ran", "rather", "rc", "rd", "re",
                        "readily", "really", "reasonably", "recent", "recently", "ref", "refs", "regarding",
-                       "regardless", "regards", "related", "relatively", "research", "research-articl", "respectively",
+                       "regardless", "regards", "related", "relatively", "respectively",
                        "resulted", "resulting", "results", "rf", "rh", "ri", "right", "rj", "rl", "rm", "rn", "ro",
                        "rq", "rr", "rs", "rt", "ru", "run", "rv", "ry", "s", "s2", "sa", "said", "same", "saw", "say",
-                       "saying", "says", "sc", "sd", "se", "sec", "second", "secondly", "section", "see", "seeing",
+                       "saying", "says", "sc", "sd", "se", "sec", "second", "secondly", "see", "seeing",
                        "seem", "seemed", "seeming", "seems", "seen", "self", "selves", "sensible", "sent", "serious",
                        "seriously", "seven", "several", "sf", "shall", "shan", "shan't", "she", "shed", "she'd",
                        "she'll", "shes", "she's", "should", "shouldn", "shouldn't", "should've", "show", "showed",
@@ -131,7 +99,7 @@ def remove_stopwords(tokenized_sentence):
                        "v", "va", "value", "various", "vd", "ve", "ve", "very", "via", "viz", "vj", "vo", "vol", "vols",
                        "volumtype", "vq", "vs", "vt", "vu", "w", "wa", "want", "wants", "was", "wasn", "wasnt",
                        "wasn't", "way", "we", "wed", "we'd", "welcome", "well", "we'll", "well-b", "went", "were",
-                       "we're", "weren", "werent", "weren't", "we've", "what", "whatever", "what'll", "whats", "whatd",
+                       "we're", "weren", "werent", "weren't", "we've", "what", "whatever", "what'll", "whats",
                        "what's", "when", "whence", "whenever", "when's", "where", "whereafter", "whereas", "whereby",
                        "wherein", "wheres", "where's", "whereupon", "wherever", "whether", "which", "while", "whim",
                        "whither", "who", "whod", "whoever", "whole", "who'll", "whom", "whomever", "whos", "who's",
@@ -140,27 +108,29 @@ def remove_stopwords(tokenized_sentence):
                        "wouldn't", "www", "x", "x1", "x2", "x3", "xf", "xi", "xj", "xk", "xl", "xn", "xo", "xs", "xt",
                        "xv", "xx", "y", "y2", "yes", "yet", "yj", "yl", "you", "youd", "you'd", "you'll", "your",
                        "youre", "you're", "yours", "yourself", "yourselves", "you've", "yr", "ys", "yt", "z", "zero",
-                       "zi", "zz", 'wasnt', 'yeah', 'ya', 'jk', 'lol', 'tbh', 'lmao', 'lmfao', 'oof', 'ugh'])  # idk you can get rid of this or add more
-    sw = set(stop_words)
+                       "zi", "zz", 'wasnt', 'yeah'])  # idk you can get rid of this or add more
 
-    temp = []
-    for word in tokenized_sentence:
-        if word not in sw:
-            temp.append(word)
-    return temp
+#remove stopwords
+#PRECONDITION: Accepts a tokenized array of strings
+#POSTCONDITION: Returns the input with stopwords removed
+def remove_stopwords(tokenized_sentence):
+	temp = []
+	for word in tokenized_sentence:
+		if word not in sw:
+			temp.append(word)
+	return temp
 
-
-# lemmatize words
-# PRECONDITION: Accepts a tokenized array of strings
-# POSTCONDITION: Returns the lemmatized version of input
+#lemmatize words
+#PRECONDITION: Accepts a tokenized array of strings
+#POSTCONDITION: Returns the lemmatized version of input
 def lemmatize(tokenized_sentence):
-    pos_tagged_sentence = nltk.pos_tag(tokenized_sentence)
-    temp = []
-    lmtzr = WordNetLemmatizer()
-    for word, tag in pos_tagged_sentence:
-        wntag = tag.lower()
-        if wntag[0] == 'j':
-            wntag = 'a'
-        wntag = wntag[0] if wntag[0] in ['a', 'r', 'n', 'v'] else None
-        temp.append(lmtzr.lemmatize(word, wntag) if wntag else word)
-    return temp
+	pos_tagged_sentence = nltk.pos_tag(tokenized_sentence)
+	temp = []
+	lmtzr = WordNetLemmatizer()
+	for word,tag in pos_tagged_sentence:
+		wntag = tag.lower()
+		if wntag[0] == 'j':
+			wntag = 'a'
+		wntag = wntag[0] if wntag[0] in ['a','r','n','v'] else None
+		temp.append(lmtzr.lemmatize(word,wntag) if wntag else word)
+	return temp

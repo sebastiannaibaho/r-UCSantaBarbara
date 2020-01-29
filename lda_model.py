@@ -7,7 +7,14 @@ from gensim.models import CoherenceModel
 from pprint import pprint #pip install pprint
 import pyLDAvis
 import pyLDAvis.gensim
+
 mallet_path = "mallet-2.0.8/bin/mallet"
+
+#number of topics for the lda model
+NUM_TOPICS = 3 
+
+#name of file to save lda model
+SAVE_FILE = "model3"
 
 if __name__ == '__main__':
 	with open("output.csv", newline = '') as f: #read csv file
@@ -37,10 +44,12 @@ if __name__ == '__main__':
 	id2word = corpora.Dictionary(format1)
 	texts = format1
 	corpus = [id2word.doc2bow(text) for text in texts]
-	lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=10, id2word=id2word)
-	lda_model.save("model")
+	lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=NUM_TOPICS, id2word=id2word)
+	lda_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model) #convert Mallet to ldaModel 
+	pprint(lda_model.print_topics())
+	lda_model.save(SAVE_FILE)
+	
 	'''
-
 	print("Building LDA model")
 	id2word = corpora.Dictionary(format1)
 	texts = format1
@@ -50,17 +59,15 @@ if __name__ == '__main__':
 	pprint(lda_model.print_topics())
 	doc_lda = lda_model[corpus]
 	lda_model.save("model")
-
 	'''
-
+	
 	print("Computing Coherence Score and Perplexity")
 	coherence_model_lda = CoherenceModel(model=lda_model, texts=texts, dictionary=id2word, coherence='c_v')
 	coherence_lda = coherence_model_lda.get_coherence()
 	#print('\nPerplexity: ', lda_model.log_perplexity(corpus))
 	print('Coherence Score: ', coherence_lda)
 
-	'''
-
+	
 	def compute_coherence_values(dictionary, corpus, texts, start=4, stop=20, step=2):
 		coherence_values = []
 		model_list = []
@@ -74,6 +81,7 @@ if __name__ == '__main__':
 			print("Num Topics =", num_topics, " has Coherence Value of", round(cv, 4))
 		return model_list, coherence_values
 
+	'''
 	print("Computing coherence values")
 	model_list, coherence_values = compute_coherence_values(id2word,corpus,texts)
 	print("Done")
@@ -81,29 +89,11 @@ if __name__ == '__main__':
 	for cv in coherence_values:
 		print("Num Topics = ", count, " has Coherence Value of", round(cv, 4))
 		count = count + 2
-
 	'''
-
-
-	lda_model = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(lda_model) #convert Mallet to ldaModel for pyLDAvis
+	
+	'''
 	print("Preparing visual data") #this takes like 10 minutes
 	vis_data = pyLDAvis.gensim.prepare(lda_model, corpus, id2word)
 	print("Saving")
-	pyLDAvis.save_html(vis_data,"visualizedLDA.html")
-	
-
+	pyLDAvis.save_html(vis_data,"visualizedLDA4.html")
 	'''
-	This is using Mallet model with 30000 posts
-	Not ideal
-
-	Num Topics = 4  has Coherence Value of 0.4981
-	Num Topics = 6  has Coherence Value of 0.5315
-	Num Topics = 8  has Coherence Value of 0.5109
-	Num Topics = 10  has Coherence Value of 0.53
-	Num Topics = 12  has Coherence Value of 0.5241
-	Num Topics = 14  has Coherence Value of 0.5354
-	Num Topics = 16  has Coherence Value of 0.5241
-	Num Topics = 18  has Coherence Value of 0.5223
-	'''
-
-	
