@@ -17,3 +17,4 @@
 
 ### Reddit bot:
 * Keep working on getting it to work
+* auto-flairing with praw
