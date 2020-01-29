@@ -16,4 +16,4 @@
 * Look up other ways to improve the coherence score
 
 ### Reddit bot:
-* Keep working in getting it to work
+* Keep working on getting it to work
