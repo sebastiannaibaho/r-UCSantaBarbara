@@ -24,9 +24,8 @@ def plot(df, name=''):
     plt.clf()
 
 
-'''
 # go make plots for all the files in Raw
-files = os.listdir("Raw")
+files = os.listdir("Data/Raw")
 print(files)
-[plot(pd.read_json("Raw/" + f), f) for f in files]
-'''
+[plot(pd.read_json("Data/Raw/" + f)) for f in files]
+
