@@ -1,8 +1,8 @@
-import Post_Scraper
-import word_utility
-import post_preprocessor
+from Functions.Post_Scraper import get_comments, get_posts
+from Functions.word_utility import word_utility
+from Functions.post_preprocessor import preprocess_posts
 import pandas as pd
-import os
+
 
 # returns a data frame of:
 # Title (as on the post)
@@ -14,9 +14,8 @@ import os
 
 
 def get_raw(num_posts, top_level_only=False, debug=False, subreddit='UCSantaBarbara'):
-    posts, ld = Post_Scraper.get_posts(num_posts, debug=debug, subreddit=subreddit)
-    comments = Post_Scraper.get_comments([p['id'] for p in posts], top_level_only=top_level_only, debug=debug,
-                                         subreddit=subreddit)
+    posts, ld = get_posts(num_posts, debug=debug, subreddit=subreddit)
+    comments = get_comments([p['id'] for p in posts], top_level_only=top_level_only, debug=debug, subreddit=subreddit)
 
     if debug:
         num_comments = 0
@@ -55,29 +54,29 @@ def get_raw(num_posts, top_level_only=False, debug=False, subreddit='UCSantaBarb
     print("Problems (posts w/o selftext): %d" % problems)
     result = list_to_df(result)
 
-    result.to_json('Raw/' + subreddit + '_' + str(posts[0]['created_utc']) + '.json')
+    result.to_json('Data/Raw/' + subreddit + '_' + str(posts[0]['created_utc']) + '.json')
 
 
 def get_processed(df_file, debug=False, read=False, write=False):
     if read:
-        return pd.read_json('Processed/' + df_file, dtype=str)
+        return pd.read_json('Data/Processed/' + df_file, dtype=str)
 
-    df = pd.read_json('Raw/' + df_file, dtype=str)
+    df = pd.read_json('Data/Raw/' + df_file, dtype=str)
 
     if debug:
         print("loaded: %s." % df_file)
 
-    result, num_deleted = post_preprocessor.preprocess_posts(df)
+    result, num_deleted = preprocess_posts(df)
     result = list_to_df(result)
 
     if debug: print("calling utility")
-    result['Content'] = word_utility.word_utility(result['Content'])
+    result['Content'] = word_utility(result['Content'])
 
     if debug:
         print("writing to file.")
 
     if write:
-        result.to_json('Processed/' + df_file)
+        result.to_json('Data/Processed/' + df_file)
 
     if debug:
         print('Number of deleted posts: %d.' % num_deleted)
@@ -100,3 +99,5 @@ files = os.listdir("Raw")
 print(files)
 [get_processed(f, debug=True, write=True) for f in files]
 '''
+
+get_raw(10)
