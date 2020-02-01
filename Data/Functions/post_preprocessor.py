@@ -53,6 +53,7 @@ def preprocess_posts(posts, comments=None):  # comments is an array of just the 
         if isinstance(posts, pd.DataFrame):
             # if passing in data frame
             post = posts.iloc[i]
+            post['link_flair_richtext'] = [{'t': post.pop('category')}]
             comment = ' '.join(post['comments'])
         else:
             # if passing in data directly from pushshift
