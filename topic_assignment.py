@@ -76,7 +76,7 @@ def model():
         for word in doc2[m].split():
             #print(word)
             for k in range(0, len(topic_keys)):
-                lst = list(list(main_dict.values())[k].keys())
+                lst = list(list_values[k].keys())
                 point = 0
                 for unigram in lst:
                     #print(unigram)
