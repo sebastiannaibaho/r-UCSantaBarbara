@@ -1,12 +1,13 @@
-import Data.Functions.word_utility as word_utility
-import csv
+from Data.get_data import get_processed
+import pandas as pd
+
 from pprint import pprint #pip install pprint
 
 
 # Topic assignment using Text Classification and ratchet algorithm
 
 
-with open('unigrams.txt') as u:
+with open('Data/AddedFlairs/unigrams.txt') as u:
     unigrams = u.read().splitlines()
 
 topic_keys = ['Academic Life',
@@ -21,26 +22,12 @@ topic_keys = ['Academic Life',
               'News',
               'Social Life']
 
-# testing model with 300 posts in test.csv
-with open("test.csv", newline='') as f:  # read csv file
-    reader = csv.reader(f)
-    # remove empty rows
-    doc = []
-    for row in reader:
-        if row != []:
-            doc.append(row)
-    # convert csv tokens to one string
-    for i in range(len(doc)):
-        doc[i] = " ".join(doc[i])
-    #pprint(doc)
-
-# doc2 is 'refined' version of doc
-doc2 = word_utility.word_utility(doc)
-for i in range(0, len(doc2)):
-    doc2[i] = " ".join(doc2[i])
+df_file = 'UCSantaBarbara_1580367940'
+original = get_processed(df_file, read=True)
+doc = pd.DataFrame(original)
 
 
-def get_topic(point_dict):
+def get_topic(point_dict, i):
     max_points = 0
     best_topic = ''
     for k, v in point_dict.items():
@@ -49,11 +36,10 @@ def get_topic(point_dict):
             best_topic = k
             max_points = v
         elif v == max_points:
-            best_topic += ", " + k
+            best_topic = k
+
     if max_points > 0:
-        print(best_topic + ': ', end='')
-    else:
-        print('No match: ', end='')
+        doc.iloc[i]['Category'] = best_topic
 
 
 # main_dict == {topic1: {unigram1: point value, unigram2: point value, ...}, topic2: ...}
@@ -69,12 +55,12 @@ def model():
 
     list_values = list(main_dict.values())
 
-    for m in range(0, len(doc2)):
+    for m in range(0, len(doc)):
         point_dict = {}
         for j in range(0, len(topic_keys)):
             point_dict[topic_keys[j]] = 0
-        for word in doc2[m].split():
-            #print(word)
+        #print(doc['Content'][m])
+        for word in doc.iloc[m]['Content']:
             for k in range(0, len(topic_keys)):
                 lst = list(list_values[k].keys())
                 point = 0
@@ -83,10 +69,17 @@ def model():
                     if word == unigram:
                         point += list_values[k].get(word)
                 point_dict[topic_keys[k]] += point
-        get_topic(point_dict)
-        print(doc[m])
+        get_topic(point_dict, m)
     return
 
 
 print('')
 model()
+
+print(len(doc[doc['Category'] != 'None']))
+
+for i in range(0, len(original)):
+    if original['Category'][i] == 'None':
+        original.iloc[i]['Category'] = doc['Category'][i]
+
+original.to_json('Data/AddedFlairs/' + df_file + 'ExtraFlairs.json')
