@@ -1,4 +1,4 @@
-# 1/28/2020 Meeting
+# 2/6/2020 Meeting
 
 ### Things to do:
 * ~~Scrape all flaired posts to train a topic model so that each flair will have its own group of keywords~~
