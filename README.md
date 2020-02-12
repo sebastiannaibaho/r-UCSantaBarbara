@@ -22,4 +22,4 @@
 ### Final choice of models:
 * Mallet
 * Gensim
-* Biterm
+* Biterm (?)
