@@ -28,6 +28,11 @@ Post data was further processed in the following order:
   >Grouping of common two word and three word phrases
 3. Lemmatization 
   >The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
+  
+ #### Clustering
+Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. 
+![Mallet LDA Visualized](/markdown-assets/visualizedLDA4.html)
+
 
 ## **Key Results**
 
