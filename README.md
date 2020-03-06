@@ -32,6 +32,7 @@ Post data was further processed in the following order:
  #### Clustering
 Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. 
 ![Mallet LDA Visualized](/markdown-assets/visualizedLDA4.png)
+For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4.html)
 
 
 ## **Key Results**
