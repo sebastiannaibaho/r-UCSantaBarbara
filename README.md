@@ -16,14 +16,18 @@ Posts were collected through pushshift.io. We considered only text posts and omi
 | environmental | studies | looking | to   | change   | my   | major  | to   | environmental | studies  | anyone | have  | any | advice  | or    | input   | on     | the | major |    |     |      |     |      |    |      |     |        |    |     |    |       |      |     |         |      |      |      |          |    |        |    |      |    |      |       |     |      |        |     |      |     |    |     |    |    |       |    |    |     |    |     |        |          |      |     |     |      |    |     |       |    |       |    |        |      |      |     |    |      |      |      |     |         |         |      |     |     |     |      |    |     |
 | pstat         | or      | pstat   | with | pedersen | or   | pstat  | with | duncan        | which    | of     | the   | two | classes | would | be      | easier |     |       |    |     |      |     |      |    |      |     |        |    |     |    |       |      |     |         |      |      |      |          |    |        |    |      |    |      |       |     |      |        |     |      |     |    |     |    |    |       |    |    |     |    |     |        |          |      |     |     |      |    |     |       |    |       |    |        |      |      |     |    |      |      |      |     |         |         |      |     |     |     |      |    |     |
 | soc           | anyone  | have    | pdf  | of       | the  | book   |      |               |          |        |       |     |         |       |         |        |     |       |    |     |      |     |      |    |      |     |        |    |     |    |       |      |     |         |      |      |      |          |    |        |    |      |    |      |       |     |      |        |     |      |     |    |     |    |    |       |    |    |     |    |     |        |          |      |     |     |      |    |     |       |    |       |    |        |      |      |     |    |      |      |      |     |         |         |      |     |     |     |      |    |     |
+
+A large obstacle to our project was the lack of labelled data sets. From the following graph only approximately 500 posts are flaired. We had to primarily rely on models that did not require labelled sets.
+![UCSB Subreddit Flair Distributions](/markdown-assets/flair_distributions.png)
+
 ### Latent Dirichlet Allocation
 Post data was further processed in the following order:
 1. Removal of stopwords
-  -Removal of unnecessary words that add no meaning (e.g the, a, we)
+  >Removal of unnecessary words that add no meaning (e.g the, a, we)
 2. Formation of bigrams and trigrams
-  -Grouping of common two word and three word phrases
+  >Grouping of common two word and three word phrases
 3. Lemmatization 
-  -The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
+  >The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
 
 ## **Key Results**
 
