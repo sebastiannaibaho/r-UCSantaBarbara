@@ -4,7 +4,8 @@
 This project uses an unsupervised machine learning model to categorize posts in the UCSB subreddit. We then created a bot which automatically flairs new posts within the appropriate topic. We extract Reddit post data through [pushshift.io](https://pushshift.io/). The data was trained on [gensim’s LDA Mallet model wrapper](https://radimrehurek.com/gensim/models/wrappers/ldamallet.html). Visualizations were done in [pyLDAvis](https://pyldavis.readthedocs.io/en/latest/). We experimented with several other models (LDA, tf-idf, biterm, GSDMM) and determined that the Mallet model was most accurate. 
 
 ## **Motivation**
-
+Reddit is a popular social news platform that allows communities to discuss and vote on content that users submit. Our school’s subreddit, /r/UCSantaBarbara, is cluttered and unorganized. Currently more than 15,000 thousand members are on the UCSB subreddit and numerous posts are being added daily. Realizing that our school’s subreddit has the potential to be much more resourceful than it currently is, we decided that it would be helpful to create a model to organize its posts. 
+![UCSB Subreddit](/markdown-assets/ucsb_subreddit.png)
 
 ## **Methodology**
 ### Data Collection
