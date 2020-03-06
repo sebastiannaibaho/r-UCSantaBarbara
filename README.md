@@ -9,8 +9,9 @@ This project uses an unsupervised machine learning model to categorize posts in 
 ## **Methodology**
 ### Data Collection
 Posts were collected through pushshift.io. We considered only text posts and omitted link posts and image posts. Posts were cleaned by removing punctuation, special characters, and emojis and converting all letters to lowercase. The data was then tokenized and saved into a .csv file. The final data looked like the following:
-|syllabus|for|pstat|and|pstat|does|anyone|have|the|syllabus|for|these|two|classes|this|quarter|
-|environmental|studies|looking|to|change|my|major|to|environmental|studies|anyone|have|any|advice|or|input|on|the|major|
+|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|
+|syllabus     |for    |pstat  |and|pstat |does|anyone|have|the          |syllabus|for   |these|two|classes|this|quarter|
+|environmental|studies|looking|to |change|my  |major |to  |environmental|studies |anyone|have |any|advice |or  |input  |on|the|major|
 
 
 ## **Key Results**
