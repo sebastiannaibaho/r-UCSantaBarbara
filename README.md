@@ -34,6 +34,14 @@ Clustering visual data was done in pyLDAvis. On the left, the circles represent 
 ![Mallet LDA Visualized](/markdown-assets/visualizedLDA4.png)
 For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4.html)
 
+### Optimizing the model
+#### Number of Topics
+Optimal topic amounts were chosen using coherence score. T
+[Number topics against coherence score](/markdown-assets/coherence.png)
+
+#### Optimal alpha value
+Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value.
+[Alpha value against coherence score](/markdown-assets/alpha.png)
 
 ## **Key Results**
 
