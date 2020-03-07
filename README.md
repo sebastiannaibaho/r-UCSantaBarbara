@@ -1,4 +1,4 @@
-# UCSB Subreddit Topic Modeling Algorithm
+# ucsb-subreddit-topic-modelling
 
 ## **Abstract**
 This project uses an unsupervised machine learning model to categorize posts in the UCSB subreddit. We then created a bot which automatically flairs new posts within the appropriate topic. We extract Reddit post data through [pushshift.io](https://pushshift.io/). The data was trained on [gensim’s LDA Mallet model wrapper](https://radimrehurek.com/gensim/models/wrappers/ldamallet.html). Visualizations were done in [pyLDAvis](https://pyldavis.readthedocs.io/en/latest/). We experimented with several other models (LDA, tf-idf, biterm, GSDMM) and determined that the Mallet model was most accurate. 
@@ -55,15 +55,13 @@ Clustering visual data was done in pyLDAvis. On the left, the circles represent 
 ![Mallet LDA Visualized](/markdown-assets/visualizedLDA4_optimized.png)
 For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4_optimized.html)
 
-##**The Reddit Bot**
+## **The Reddit Bot**
 The Reddit bot uses [praw](https://praw.readthedocs.io/en/latest/) to automatically retrieve new submissions to the subreddit in realtime. Each post is then processed the same way as our LDA model. The model is able to determine the most likely topic cluster the post fits in and the bot flairs the post on the site accordingly. 
 
 ## **Summary**
 Our goal for this project was to categorize posts in the UCSB subreddit and flair them in real time. We trained our model and determined optimal topic numbers and alpha parameters using by maximizing coherence values. We then built a Reddit bot that can independently detect new posts and flair them appropriately according to our model. 
 
 ## **Key Results**
-Coherence value of 0.584 with 4 topic clusters and alpha=90
+1. Our model was able to have a coherence value of 0.584 with 4 topic clusters and alpha=90. Through internal testing, the accuracy of our model to correctly flair a post into the correct category is approximately 71%. 
 
-Data Visualization displays topic clusters and most prevelent words per topic.
-
-## **Future Work**
+2. Data visualization allowed us to determine salient terms in each topic and how close certain topics were to each other. This allowed us to see which words most contributed to which topic. 
