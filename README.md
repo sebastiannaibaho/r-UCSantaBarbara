@@ -28,11 +28,6 @@ Post data was further processed in the following order:
   >Grouping of common two word and three word phrases
 3. Lemmatization 
   >The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
-  
- #### Clustering
-Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. 
-![Mallet LDA Visualized](/markdown-assets/visualizedLDA4.png)
-For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4.html)
 
 ### Optimizing the model
 #### Number of Topics
@@ -47,18 +42,24 @@ Once deciding on a topic number of four, we tested various alpha values for the 
 Now that we have determined the optimal number of topics and alpha value, we build our model. We use Mallet's build in hyperparameter optimization to constantly adjust alpha and beta parameters as the model is trained.
 
 ```
-lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=4, id2word=id2word,alpha = 90, optimize_interval=10)
+lda_model = gensim.models.wrappers.LdaMallet(mallet_path, 
+                                             corpus=corpus, 
+                                             num_topics=4, 
+                                             id2word=id2word,
+                                             alpha = 90, 
+                                             optimize_interval=10)
 ```
 
-## **Key Results**
-
-
+#### Clustering
+Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. 
+![Mallet LDA Visualized](/markdown-assets/visualizedLDA4.png)
+For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4.html)
 ## **Summary**
+Our goal for this project was to categorize posts in the UCSB subreddit and flair them in real time. We trained our model and determined optimal topic numbers and alpha parameters using by maximizing coherence values. We then built a Reddit bot that can independently detect new posts and flair them appropriately according to our model. 
 
+## **Key Results**
+Coherence value of 0.584 with 4 topic clusters and alpha=90
+
+Data Visualization displays topic clusters and most prevelent words per topic.
 
 ## **Future Work**
-
-### Touch-Ups
-* Use the Mallet model to make the TF-IDF model more accurate
-* (1) Mallet model assigns a post to a number
-* (2) Depending on the number assigned to that post, run the post through TF-IDF and eliminate irrelevant topics when running it
