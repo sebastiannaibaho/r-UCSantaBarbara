@@ -22,26 +22,29 @@ A large obstacle to our project was the lack of labelled data sets. From the fol
 
 ### Latent Dirichlet Allocation
 Post data was further processed in the following order:
-1. Removal of stopwords
+1. Removal of stopwords 
   >Removal of unnecessary words that add no meaning (e.g the, a, we)
-2. Formation of bigrams and trigrams
+2. Formation of bigrams and trigrams 
   >Grouping of common two word and three word phrases
 3. Lemmatization 
   >The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
+Stopword removal and lemmatization was done through [nltk](https://www.nltk.org) and bigram and trigram creation through [gensim](https://radimrehurek.com/gensim/models/phrases.html).
 
 ### Optimizing the model
 #### Number of Topics
-Optimal topic amounts were chosen using coherence score. 
+Optimal topic amounts were chosen using coherence score.
+
 ![Number topics against coherence score](/markdown-assets/topic_coherence.png)
 
 #### Optimal alpha value
 Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value. The alpha value determines document-topic density. The higher the alpha value, documents are composed of more topics.
+
 ![Alpha value against coherence score](/markdown-assets/alpha_coherence.png)
 
 ### Building Final Model
 Now that we have determined the optimal number of topics and alpha value, we build our model. We use Mallet's built in hyperparameter optimization to constantly adjust alpha and beta parameters as the model is trained.
 
-```
+```python
 lda_model = gensim.models.wrappers.LdaMallet(mallet_path, 
                                              corpus=corpus, 
                                              num_topics=4, 
