@@ -36,12 +36,12 @@ For an interactive version, open the .html file [here](https://github.com/sebast
 
 ### Optimizing the model
 #### Number of Topics
-Optimal topic amounts were chosen using coherence score. T
-[Number topics against coherence score](/markdown-assets/coherence.png)
+Optimal topic amounts were chosen using coherence score. 
+![Number topics against coherence score](/markdown-assets/topic_coherence.png)
 
 #### Optimal alpha value
-Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value.
-[Alpha value against coherence score](/markdown-assets/alpha.png)
+Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value. The alpha value determines document=topic density. 
+![Alpha value against coherence score](/markdown-assets/alpha_coherence.png)
 
 ## **Key Results**
 
