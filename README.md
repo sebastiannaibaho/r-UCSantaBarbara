@@ -33,12 +33,12 @@ Stopword removal and lemmatization was done through [nltk](https://www.nltk.org)
 
 ### Optimizing the model
 #### Number of Topics
-Optimal topic amounts were chosen using coherence score. We chose 4 total topic clusters to prevent further subdivision of 
+Optimal topic amounts were chosen using coherence score. We chose 4 total topic clusters rather than 7 as topics were unnecessarily subdivided into categories that were too narrow.
 
 ![Number topics against coherence score](/markdown-assets/topic_coherence.png)
 
 #### Optimal alpha value
-Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value. The alpha value determines document-topic density. The higher the alpha value, documents are composed of more topics.
+Once deciding on a topic number of 4, we tested various alpha values for the model and determined that alpha=90 was ideal as it yielded the highest coherence value. The alpha value determines document-topic density. The higher the alpha value, documents are composed of more topics. 
 
 ![Alpha value against coherence score](/markdown-assets/alpha_coherence.png)
 
@@ -50,7 +50,7 @@ lda_model = gensim.models.wrappers.LdaMallet(mallet_path,
                                              corpus=corpus, 
                                              num_topics=4, 
                                              id2word=id2word,
-                                             alpha = 90, 
+                                             alpha=90, 
                                              optimize_interval=10)
 ```
 
@@ -66,6 +66,10 @@ The Reddit bot uses [praw](https://praw.readthedocs.io/en/latest/) to automatica
 Our goal for this project was to categorize posts in the UCSB subreddit and flair them in real time. We trained our model and determined optimal topic numbers and alpha parameters using by maximizing coherence values. We then built a Reddit bot that can independently detect new posts and flair them appropriately according to our model. 
 
 ## **Key Results**
-1. Our model was able to have a coherence value of 0.584 with 4 topic clusters and alpha=90. Through internal testing, the accuracy of our model to correctly flair a post into the correct category is approximately 71%. 
+1. We were able to determine the ideal number of topic clusters and value of hyperparamters for our model. Mallet was able to further refine these paramters while the model was being trained.
 
-2. Data visualization allowed us to determine salient terms in each topic and how close certain topics were to each other. This allowed us to see which words most contributed to which topic. 
+1. Our model was able to have a coherence value of 0.584 with 4 topic clusters and alpha=90. Through internal testing, the accuracy of our model to correctly flair a post into the correct category is approximately 70%. 
+
+2. Data visualization allowed us to determine salient terms in each topic and how close certain topics were to each other. This allowed us to see which words most contributed to which topic. For example, "iv" was extremely useful in categorizing the IV/Social category and words such as "midterm" and "class" gave a high probability for the Academic cluster.
+
+3. Our Reddit Bot can autonomously flair posts in real time using our model.
