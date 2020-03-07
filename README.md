@@ -28,11 +28,12 @@ Post data was further processed in the following order:
   >Grouping of common two word and three word phrases
 3. Lemmatization 
   >The reduction of words into their root form so they can analyzed the equally (e.g running, runs, ran all convert to run)
+
 Stopword removal and lemmatization was done through [nltk](https://www.nltk.org) and bigram and trigram creation through [gensim](https://radimrehurek.com/gensim/models/phrases.html).
 
 ### Optimizing the model
 #### Number of Topics
-Optimal topic amounts were chosen using coherence score.
+Optimal topic amounts were chosen using coherence score. We chose 4 total topic clusters to prevent further subdivision of 
 
 ![Number topics against coherence score](/markdown-assets/topic_coherence.png)
 
