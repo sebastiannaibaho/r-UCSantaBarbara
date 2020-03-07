@@ -42,10 +42,14 @@ Optimal topic amounts were chosen using coherence score.
 #### Optimal alpha value
 Once deciding on a topic number of four, we tested various alpha values for the model and used the one with the highest coherence value. The alpha value determines document-topic density. The higher the alpha value, documents are composed of more topics.
 ![Alpha value against coherence score](/markdown-assets/alpha_coherence.png)
+
 ### Building Final Model
 Now that we have determined the optimal number of topics and alpha value, we build our model. We use Mallet's build in hyperparameter optimization to constantly adjust alpha and beta parameters as the model is trained.
-    lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=4, id2word=id2word,alpha = 90, optimize_interval=10)
-    
+
+```
+lda_model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=4, id2word=id2word,alpha = 90, optimize_interval=10)
+```
+
 ## **Key Results**
 
 
