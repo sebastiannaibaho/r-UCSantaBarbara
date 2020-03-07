@@ -50,7 +50,7 @@ lda_model = gensim.models.wrappers.LdaMallet(mallet_path,
                                              optimize_interval=10)
 ```
 
-#### Clustering
+### Clustering
 Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. Each topic cluster is labelled with how we flaired them for the viewer's convenience.
 ![Mallet LDA Visualized](/markdown-assets/visualizedLDA4_optimized.png)
 For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4_optimized.html)
