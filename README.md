@@ -39,7 +39,7 @@ Once deciding on a topic number of four, we tested various alpha values for the 
 ![Alpha value against coherence score](/markdown-assets/alpha_coherence.png)
 
 ### Building Final Model
-Now that we have determined the optimal number of topics and alpha value, we build our model. We use Mallet's build in hyperparameter optimization to constantly adjust alpha and beta parameters as the model is trained.
+Now that we have determined the optimal number of topics and alpha value, we build our model. We use Mallet's built in hyperparameter optimization to constantly adjust alpha and beta parameters as the model is trained.
 
 ```
 lda_model = gensim.models.wrappers.LdaMallet(mallet_path, 
@@ -51,9 +51,13 @@ lda_model = gensim.models.wrappers.LdaMallet(mallet_path,
 ```
 
 #### Clustering
-Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. 
+Clustering visual data was done in pyLDAvis. On the left, the circles represent each topic cluster, with the size of the circle representing how prevalent that topic is. How close the circles are show how related certain topics are. Each topic cluster is labelled with how we flaired them for the viewer's convenience.
 ![Mallet LDA Visualized](/markdown-assets/visualizedLDA4_optimized.png)
 For an interactive version, open the .html file [here](https://github.com/sebastiannaibaho/r-UCSantaBarbara/blob/separate-function-branch/markdown-assets/visualizedLDA4_optimized.html)
+
+##**The Reddit Bot**
+The Reddit bot uses [praw](https://praw.readthedocs.io/en/latest/) to automatically retrieve new submissions to the subreddit in realtime. Each post is then processed the same way as our LDA model. The model is able to determine the most likely topic cluster the post fits in and the bot flairs the post on the site accordingly. 
+
 ## **Summary**
 Our goal for this project was to categorize posts in the UCSB subreddit and flair them in real time. We trained our model and determined optimal topic numbers and alpha parameters using by maximizing coherence values. We then built a Reddit bot that can independently detect new posts and flair them appropriately according to our model. 
 
