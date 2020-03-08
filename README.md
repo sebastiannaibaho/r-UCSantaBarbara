@@ -66,10 +66,8 @@ The Reddit bot uses [praw](https://praw.readthedocs.io/en/latest/) to automatica
 Our goal for this project was to categorize posts in the UCSB subreddit and flair them in real time. We trained our model and determined optimal topic numbers and alpha parameters using by maximizing coherence values. We then built a Reddit bot that can independently detect new posts and flair them appropriately according to our model. 
 
 ## **Key Results**
-1. We were able to determine the ideal number of topic clusters and value of hyperparamters for our model. Mallet was able to further refine these paramters while the model was being trained.
-
-1. Our model was able to have a coherence value of 0.584 with 4 topic clusters and alpha=90. Through internal testing, the accuracy of our model to correctly flair a post into the correct category is approximately 70%. 
+1. We were able to determine the ideal number of topic clusters and value of hyperparamters for our model. Mallet was able to further refine these parameters while the model was being trained. Our final model had a coherence value of 0.584 with 4 topic clusters. Through internal testing, the accuracy of our model to correctly flair a post into the correct category is approximately 70%. 
 
 2. Data visualization allowed us to determine salient terms in each topic and how close certain topics were to each other. This allowed us to see which words most contributed to which topic. For example, "iv" was extremely useful in categorizing the IV/Social category and words such as "midterm" and "class" gave a high probability for the Academic cluster.
 
-3. Our Reddit Bot can autonomously flair posts in real time using our model.
+3. We developed a Reddit Bot which can autonomously flair posts in real time by analyzing a post's title and text with respect to our trained LDA model.
